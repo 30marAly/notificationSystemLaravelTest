@@ -1,0 +1,12 @@
+[90m= [39m[34;4mApp\Models\Notification[39;24m {#6368
+    [34mtitle[39m: "[32mTest Now[39m",
+    [34mdescription[39m: "[32mShould be sent now[39m",
+    [34muser_id[39m: [35m1[39m,
+    [34mscheduled_at[39m: [34;4mIlluminate\Support\Carbon @1751900921[39;24m {#6358
+      [34mdate[39m: [36m2025-07-07 15:08:41.975501 UTC (+00:00)[39m,
+    },
+    [34mupdated_at[39m: "[32m2025-07-07 15:08:41[39m",
+    [34mcreated_at[39m: "[32m2025-07-07 15:08:41[39m",
+    [34mid[39m: [35m355[39m,
+  }
+

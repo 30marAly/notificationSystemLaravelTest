@@ -28,6 +28,7 @@ class NotificationController extends Controller
             'notification_type' => 'required|in:mail,sms,push',
             'recipient' => 'required|string',
             'scheduled_at' => 'nullable|date',
+            //'is_sent'=> 'required|in:true,false',
         ]);
 
             // ✅ تحويل التوقيت
@@ -41,8 +42,12 @@ class NotificationController extends Controller
             'notification_type' => $request->notification_type,
             'recipient' => $request->recipient,
             'scheduled_at' => $scheduledAt,
-            'is_sent' => false,
+            //'is_sent' => $request->is_sent == 'true' ? true : false, 
         ]);
+
+        // $notification = Notification::update([
+        //     'is_cancelled' => true, 
+        // ]);
 
         if (!$notification) {
             return back()->with('error', '❌ Saving notification failed.');
@@ -52,7 +57,15 @@ class NotificationController extends Controller
 
     }
 
+    public function updateCancelledStatus(Request $request, $id)
+    {
 
+        $notification = Notification::findOrFail($id); 
+        $notification->is_cancelled = !$notification->is_cancelled; 
+        $notification->save();
+
+        return redirect()->route('notifications.index');
+    }
 
 }
 

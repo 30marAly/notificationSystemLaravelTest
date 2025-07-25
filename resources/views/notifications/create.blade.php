@@ -63,13 +63,19 @@
             });
         </script>
 
-
-
-
         <div class="mb-3">
             <label for="scheduled_at">Scheduled At</label>
             <input name="scheduled_at" class="form-control" type="datetime-local">
         </div>
+
+
+        {{-- <div class="mb-3">
+            <label for="is_sent">Is Sent</label>
+            <select name="is_sent" id="is_sent" class="form-control" required>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div> --}}
 
         <button class="btn btn-success">Schedule Notification</button>
     </form>

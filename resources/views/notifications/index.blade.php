@@ -30,6 +30,8 @@
                     <th>Recipient</th>
                     <th>Read</th>
                     <th>Scheduled At</th> 
+                    <th>Is Sent</th> 
+                    <th>Cancelled</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,18 +41,32 @@
                         <td>{{ $notification->description }}</td>
                         <td>{{ $notification->notification_type }}</td>
                         <td>{{ $notification->recipient }}</td>
-                        <td>
-                            @if($notification->is_read)
-                                ✅ Read
-                            @else
-                                ❌ Unread
-                            @endif
-                        </td>
+                        <td>{{ $notification->is_cancelled}}</td>
                         <td>
                             {{ $notification->scheduled_at
                                 ? \Carbon\Carbon::parse($notification->scheduled_at)->timezone('Africa/Cairo')->format('Y-m-d H:i')
                                 : '-' }}
                         </td>
+
+                        <td>
+                            @if($notification->is_sent)
+                                ✅ Sent
+                            @else
+                                ❌ UnSend
+                            @endif
+                        </td>
+
+                        <td>
+
+                            <form action="{{ route('notifications.updateCancelledStatus', $notification->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-sm {{ $notification->is_cancelled ? 'btn-success' : 'btn-danger' }}">
+                                    {{ $notification->is_cancelled ? ' Cancelled' : ' Not Cancelled' }}
+                                </button>
+                            </form>
+                        </td>                   
+
+
                     </tr>
                 @endforeach
             </tbody>

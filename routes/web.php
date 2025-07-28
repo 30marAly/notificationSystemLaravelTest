@@ -16,4 +16,5 @@ Route::post('/notifications/import', [NotificationImportController::class, 'impo
 Route::get('/notifications/create', [NotificationController::class,'create'])->name('notifications.create');
 Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
-Route::post('/notifications/{id}/update', [NotificationController::class, 'updateCancelledStatus'])->name('notifications.updateCancelledStatus');
+ Route::post('/notifications/{id}/update', [NotificationController::class, 'updateCancelledStatus'])->name('notifications.updateCancelledStatus');
+

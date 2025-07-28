@@ -28,7 +28,7 @@
                     <th>Description</th>
                     <th>Type</th>
                     <th>Recipient</th>
-                    <th>Read</th>
+                    {{-- <th>Read</th> --}}
                     <th>Scheduled At</th> 
                     <th>Is Sent</th> 
                     <th>Cancelled</th>
@@ -41,7 +41,7 @@
                         <td>{{ $notification->description }}</td>
                         <td>{{ $notification->notification_type }}</td>
                         <td>{{ $notification->recipient }}</td>
-                        <td>{{ $notification->is_cancelled}}</td>
+                        {{-- <td>{{ $notification->is_cancelled}}</td> --}}
                         <td>
                             {{ $notification->scheduled_at
                                 ? \Carbon\Carbon::parse($notification->scheduled_at)->timezone('Africa/Cairo')->format('Y-m-d H:i')
@@ -52,19 +52,26 @@
                             @if($notification->is_sent)
                                 ✅ Sent
                             @else
-                                ❌ UnSend
+                                ❌ UnSend         
                             @endif
                         </td>
+
+                        @php
+                        $isBefore= \Carbon\Carbon::parse($notification->scheduled_at)->isPast();
+                        @endphp
 
                         <td>
 
                             <form action="{{ route('notifications.updateCancelledStatus', $notification->id) }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-sm {{ $notification->is_cancelled ? 'btn-success' : 'btn-danger' }}">
+                                <button type="submit" class="btn btn-sm {{ $notification->is_cancelled ? 'btn-success' : 'btn-danger' }}" {{ $isBefore ? 'disabled' : '' }}>
+                                    {{-- {{ $isBefore ? 'disabled' : '' }} --}}
                                     {{ $notification->is_cancelled ? ' Cancelled' : ' Not Cancelled' }}
+
                                 </button>
                             </form>
                         </td>                   
+{{-- https://stackoverflow.com/questions/41454800/object-of-class-carbon-carbon-could-not-be-converted-to-int --}}
 
 
                     </tr>

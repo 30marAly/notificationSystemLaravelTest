@@ -46,6 +46,7 @@ class SendNotificationsJob implements ShouldQueue
                 'description' => $notification->description,
                 'notification_type' => $notification->notification_type,
                 'recipient' => $notification->recipient,
+                'scheduled_at' => $notification->scheduled_at,
                 //'is_sent' => $notification->is_sent ,
             ]);
 
@@ -57,18 +58,12 @@ class SendNotificationsJob implements ShouldQueue
             //$notification->is_cancelled = true;
 
 
-            if ($notification->is_cancelled == true) {
-                echo "❌ Notification cancelled: {$notification->title}\n";
-            } else {
+            
 
             $msg = new AMQPMessage($payload, ['delivery_mode' => 2]);
             $channel->basic_publish($msg, '', $queueName);
             echo "✅ Sent to RabbitMQ: $payload\n";
                 
-           }
-
-
-
                     //$notification->is_sent =false; 
 
             $notification->sent_at = now();

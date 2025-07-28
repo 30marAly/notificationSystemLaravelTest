@@ -61,7 +61,17 @@ class NotificationController extends Controller
     {
 
         $notification = Notification::findOrFail($id); 
-        $notification->is_cancelled = !$notification->is_cancelled; 
+
+        //$notification->is_cancelled = !$notification->is_cancelled;
+        if ($notification->scheduled_at < now() & $notification->is_cancelled == true) {
+            $notification->is_cancelled = true; // Cancel if scheduled time is in the past            
+         } 
+         elseif ($notification->scheduled_at < now() & $notification->is_cancelled == false) {
+            
+            $notification->is_cancelled = false; // Cancel if scheduled time is in the future
+         } else {
+           $notification->is_cancelled = !$notification->is_cancelled;  // Toggle cancellation status
+         }
         $notification->save();
 
         return redirect()->route('notifications.index');

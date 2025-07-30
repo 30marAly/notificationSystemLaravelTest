@@ -11,6 +11,8 @@ class NotificationController extends Controller
     //
     public function index(){
         $notifications = Notification::latest()->get();
+
+        //dd($notifications[0]->is_passed);
         return view('notifications.index',compact('notifications'));
     }
 

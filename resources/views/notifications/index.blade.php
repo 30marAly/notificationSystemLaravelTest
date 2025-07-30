@@ -20,6 +20,9 @@
     <a href="{{ route('notifications.create') }}" class="btn btn-primary float-end mb-3">➕ Add Notification</a>
     @if($notifications->isEmpty())
         <div class="alert alert-info">No notifications found.</div>
+
+    
+        
     @else
         <table class="table table-bordered table-hover shadow-sm">
             <thead class="table-dark">
@@ -36,6 +39,7 @@
             </thead>
             <tbody>
                 @foreach($notifications as $notification)
+                 
                     <tr>
                         <td>{{ $notification->title }}</td>               
                         <td>{{ $notification->description }}</td>
@@ -46,6 +50,7 @@
                             {{ $notification->scheduled_at
                                 ? \Carbon\Carbon::parse($notification->scheduled_at)->timezone('Africa/Cairo')->format('Y-m-d H:i')
                                 : '-' }}
+                           
                         </td>
 
                         <td>
@@ -56,16 +61,14 @@
                             @endif
                         </td>
 
-                        @php
+                        {{-- @php
                         $isBefore= \Carbon\Carbon::parse($notification->scheduled_at)->isPast();
-                        @endphp
+                        @endphp --}}
 
                         <td>
-
                             <form action="{{ route('notifications.updateCancelledStatus', $notification->id) }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-sm {{ $notification->is_cancelled ? 'btn-success' : 'btn-danger' }}" {{ $isBefore ? 'disabled' : '' }}>
-                                    {{-- {{ $isBefore ? 'disabled' : '' }} --}}
+                                <button type="submit" class="btn btn-sm {{ $notification->is_cancelled ? 'btn-success' : 'btn-danger' }}" {{ $notification->is_passed ? 'disabled' : '' }}>
                                     {{ $notification->is_cancelled ? ' Cancelled' : ' Not Cancelled' }}
 
                                 </button>

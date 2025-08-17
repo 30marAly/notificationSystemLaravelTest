@@ -35,6 +35,7 @@
                     <th>Scheduled At</th> 
                     <th>Is Sent</th> 
                     <th>Cancelled</th>
+                    <th>Remove from Queue</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +78,14 @@
 {{-- https://stackoverflow.com/questions/41454800/object-of-class-carbon-carbon-could-not-be-converted-to-int --}}
 
 
+                        <td>
+                                        {{-- Remove from queue button --}}  
+                                        <form method="POST" action="{{ route('notifications.removeFromQueue', $notification->id) }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove from Queue</button>
+                                        </form>
+
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

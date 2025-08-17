@@ -13,6 +13,7 @@ class NotificationController extends Controller
         $notifications = Notification::latest()->get();
 
         //dd($notifications[0]->is_passed);
+        //dd($notifications[0]->is_removed);
         return view('notifications.index',compact('notifications'));
     }
 
@@ -76,6 +77,17 @@ class NotificationController extends Controller
          }
         $notification->save();
 
+        return redirect()->route('notifications.index');
+    }
+
+    public function removeFromQueue(Request $request, $id)
+    {
+        $notification = Notification::findOrFail($id);
+        // remove notification from queue
+        $notification->is_removed = true; 
+        $notification->save();
+
+        //dd($notification->is_removed);
         return redirect()->route('notifications.index');
     }
 

@@ -18,3 +18,6 @@ Route::post('/notifications', [NotificationController::class, 'store'])->name('n
 
  Route::post('/notifications/{id}/update', [NotificationController::class, 'updateCancelledStatus'])->name('notifications.updateCancelledStatus');
 
+ Route::post('/notifications/{id}/removeFromQueue', [NotificationController::class, 'removeFromQueue'])->name('notifications.removeFromQueue');
+
+

@@ -28,7 +28,7 @@ class SendNotificationsJob implements ShouldQueue
             return;
         }
 
-        // Establish a connection to RabbitMQ
+        // Establish a connection to RabbitMQ server
         $connection = new AMQPStreamConnection(
             env('RABBITMQ_HOST', 'rabbitmq'),
             env('RABBITMQ_PORT', 5672),
@@ -42,11 +42,13 @@ class SendNotificationsJob implements ShouldQueue
 
         foreach ($notifications as $notification) {
             $payload = json_encode([
+                'id' => $notification->id,
                 'title' => $notification->title,
                 'description' => $notification->description,
                 'notification_type' => $notification->notification_type,
                 'recipient' => $notification->recipient,
                 'scheduled_at' => $notification->scheduled_at,
+                'is_removed' => $notification->is_removed,
                 //'is_sent' => $notification->is_sent ,
             ]);
 
@@ -57,14 +59,20 @@ class SendNotificationsJob implements ShouldQueue
 
             //$notification->is_cancelled = true;
 
-
-            
-
             $msg = new AMQPMessage($payload, ['delivery_mode' => 2]);
-            $channel->basic_publish($msg, '', $queueName);
-            echo "✅ Sent to RabbitMQ: $payload\n";
+
+            // if($notification->is_removed) {
+            //     //$channel->basic_reject($msg->get('delivery_tag'), false);
+            //     echo "❌ Notification removed, not sent: $payload\n";
+            //     continue; // Skip sending this notification
+            // }else {
+                    
+            //     }           
                 
                     //$notification->is_sent =false; 
+
+            $channel->basic_publish($msg, '', $queueName);
+                    echo "✅ Sent to RabbitMQ: $payload\n";        
 
             $notification->sent_at = now();
             $notification->is_sent =true; // Mark as sent after sending

@@ -14,7 +14,7 @@ class Notification extends Model
     use HasFactory;
     
 
-    protected $fillable = ['title', 'description', 'notification_type' ,'recipient', 'is_sent', 'is_cancelled' , 'isRead','scheduled_at'];
+    protected $fillable = ['title', 'description', 'notification_type' ,'recipient', 'is_sent', 'is_cancelled' , 'isRead','scheduled_at' , 'is_removed'];
 
     public function user()
     {
@@ -23,6 +23,8 @@ class Notification extends Model
 
   // protected $model =Carbon::parse($this->scheduled_at)->isPast()? 'disabled' : null;
 
+
+    //Accessor to check if the notification is passed.
    protected function isPassed() : Attribute
    {
         //Log::error("is_passed");
